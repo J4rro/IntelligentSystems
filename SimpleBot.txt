@@ -1,0 +1,75 @@
+public class SimpleBot {
+	
+	public static int calculateHeuristic(Planet source, Planet dest){
+		if(dest.GrowthRate() == 0){
+			return -500;
+		}
+		return (source.NumShips() / 2 - dest.NumShips() + dest.GrowthRate() * 4);
+	}
+	
+	public static int calculateHeuristic(PlanetWars pw, Planet source, Planet dest){
+		if(dest.Owner()>=2){
+			
+		}
+		return 0;
+	}
+	public static void DoTurn(PlanetWars pw){
+		
+		Planet source = null;
+		Planet dest = null;
+		
+		int score = -1000;
+		for (Planet myPlanet : pw.MyPlanets()) {
+			if (myPlanet.NumShips() <= 1)
+				continue;
+			for (Planet notMyPlanet : pw.NotMyPlanets()) {
+				int orderScore = calculateHeuristic(myPlanet, notMyPlanet);
+				if(orderScore > score){
+					score = orderScore;
+					source = myPlanet;
+					dest = notMyPlanet;
+				}else if(orderScore == score && notMyPlanet.Owner() >= 2){
+					score = orderScore;
+					source = myPlanet;
+					dest = notMyPlanet;
+				}else if(orderScore == score && pw.Distance(source.PlanetID(), notMyPlanet.PlanetID()) > pw.Distance(source.PlanetID(), dest.PlanetID())){
+					score = orderScore;
+					source = myPlanet;
+					dest = notMyPlanet;
+				}
+			}
+		}
+		System.err.println(dest.GrowthRate());
+		if (source != null && dest != null) {
+			pw.IssueOrder(source, dest);
+		}
+	}
+
+	public static void main(String[] args) {
+		String line = "";
+		String message = "";
+		int c;
+		try {
+			while ((c = System.in.read()) >= 0) {
+				switch (c) {
+				case '\n':
+					if (line.equals("go")) {
+						PlanetWars pw = new PlanetWars(message);
+						DoTurn(pw);
+						pw.FinishTurn();
+						message = "";
+					} else {
+						message += line + "\n";
+					}
+					line = "";
+					break;
+				default:
+					line += (char) c;
+					break;
+				}
+			}
+		} catch (Exception e) {
+
+		}
+	}
+}
