@@ -1,4 +1,3 @@
-package IntelligentSystems;
 import java.util.*;
 
 /** Another smarter kind of bot, which implements a minimax algorithm with look-ahead of two turns.
@@ -60,7 +59,6 @@ public class JorroZorRoBot {
 		return result;
 	}
 	
-	
 	public static void main(String[] args) {
 		
 		String line = "";
@@ -86,7 +84,7 @@ public class JorroZorRoBot {
 				}
 			}
 		} catch (Exception e) {
-			// Owned.
+			
 		}
 	}
 	
@@ -145,13 +143,6 @@ public class JorroZorRoBot {
 		}
 	}
 	
-	
-	/**
-	 * Create the simulation environment. Returns a SimulatedPlanetWars instance.
-	 * Call every time you want a new simulation environment.
-	 * @param The original PlanetWars object
-	 * @return SimulatedPlanetWars instance on which to simulate your attacks. Create a new one everytime you want to try alternative simulations.
-	 */
 	public static SimulatedPlanetWars createSimulation(PlanetWars pw){
 		return dummyBot.new SimulatedPlanetWars(pw);
 	}
@@ -227,14 +218,9 @@ public class JorroZorRoBot {
 			return simpw2;
 		}
 		
-		
 		public void simulateEnemyBotAttack(SimulatedPlanetWars simpw){
 			
 			List<Heuristic> gameState = new ArrayList<Heuristic>();
-
-//			double score = 1000.;
-//			Planet source = null;
-//			Planet dest = null;
 			
 			for(Planet enemyPlanet : simpw.EnemyPlanets()){				
 				if (enemyPlanet.NumShips() <= 1)
@@ -246,14 +232,6 @@ public class JorroZorRoBot {
 					simpw2.simulateGrowth();
 					
 					gameState.add(new Heuristic(simpw2, notEnemyPlanet, enemyPlanet));
-					
-//					double scoreMin = evaluateState(simpw2, gameState);
-//					
-//					if (scoreMin < score) {					
-//						score = scoreMin;
-//						source = enemyPlanset;
-//						dest = notEnemyPlanet;
-//					}
 				}
 			}
 			
