@@ -39,7 +39,6 @@ public class JorroZorRoBot {
 				simpw5.simulateAttack(simpw4);
 
 				gameState.add(new Heuristic(simpw4, myPlanet, notMyPlanet));
-				
 			}
 		}
 		
@@ -109,8 +108,8 @@ public class JorroZorRoBot {
 			this.destination = destination;
 		}
 		
-		public Heuristic(SimulatedPlanetWars pw, Planet source, Planet destination){
-			this.value = calcHeuristic(pw, source, destination);
+		public Heuristic(SimulatedPlanetWars simpw, Planet source, Planet destination){
+			this.value = calcHeuristic(simpw, source, destination);
 			this.source = source;
 			this.destination = destination;
 		}
@@ -127,7 +126,7 @@ public class JorroZorRoBot {
 				myShips += planet.NumShips() + planet.GrowthRate();
 			}
 			
-			return (myShips/enemyShips * getWeakestPlanet(pw).GrowthRate());
+			return myShips - enemyShips;
 		}
 		
 		private double calcHeuristic(SimulatedPlanetWars pw, Planet source, Planet destination) {
@@ -143,40 +142,9 @@ public class JorroZorRoBot {
 			}
 			
 			return myShips - enemyShips;
-//			return (myShips/enemyShips * getWeakestPlanet(pw).GrowthRate());
 		}
-
-		private Planet getWeakestPlanet(PlanetWars pw) {
-			int minShips = 1000;
-			int maxGrowth = -1000;
-			Planet weakestPlanet = null;
-			for(Planet myPlanet : pw.MyPlanets()){
-				if(myPlanet.NumShips() < minShips && myPlanet.GrowthRate() > maxGrowth){
-					minShips = myPlanet.NumShips();
-					maxGrowth = myPlanet.GrowthRate();
-					weakestPlanet = myPlanet;
-				}
-			}
-			
-			return weakestPlanet;
-		}
-		
-		private Planet getWeakestPlanet(SimulatedPlanetWars pw) {
-			int minShips = 1000;
-			int maxGrowth = -1000;
-			Planet weakestPlanet = null;
-			for(Planet myPlanet : pw.MyPlanets()){
-				if(myPlanet.NumShips() < minShips && myPlanet.GrowthRate() > maxGrowth){
-					minShips = myPlanet.NumShips();
-					maxGrowth = myPlanet.GrowthRate();
-					weakestPlanet = myPlanet;
-				}
-			}
-			
-			return weakestPlanet;
-		}
-		
 	}
+	
 	
 	/**
 	 * Create the simulation environment. Returns a SimulatedPlanetWars instance.
